@@ -1,0 +1,15 @@
+@tailwind components;
+@tailwind utilities;
+@tailwind base;
+
+html,body{
+
+    background-color: #23304c;
+    scrollbar-width: none;
+}
+
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
