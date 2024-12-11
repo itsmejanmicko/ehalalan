@@ -15,7 +15,6 @@ function generateRandomPassword() {
 
 export const formValidation = {
   async register(email: string, lrn: string, fullName: string, grade: string) {
-    console.log(email);
     try {
       // Reference to the 'students' subcollection within the specified grade
       const studentsCollection = collection(db, 'users', grade, 'students');
@@ -46,29 +45,52 @@ export const formValidation = {
 
   async login(lrn: string, password: string) {
     try {
+      // Handle special case for LRN === '0'
+      if (lrn === '0') {
+        const adminRef = collection(db, 'users');
+        const q = query(adminRef, where('lrn', '==', '0'));
+        const querySnapshot = await getDocs(q);
+  
+        if (querySnapshot.empty) {
+          throw new Error('LRN not found in Firestore document.');
+        }
+  
+        const userData = querySnapshot.docs[0].data();
+        if (!userData.email) {
+          throw new Error("Email not found in Firestore document.");
+        }
+  
+        const userCredential = await signInWithEmailAndPassword(auth, userData.email, password);
+        return { ...userCredential, role: userData.role || "admin" }; // Always include a role
+      }
+  
+      // Handle all other LRN cases
       for (const grade of validGrades) {
-        console.log(`Checking in ${grade}`);
-
         const findLrn = collection(db, 'users', grade, 'students');
         const q = query(findLrn, where('lrn', '==', lrn.trim().toLowerCase()));
         const result = await getDocs(q);
-
+  
         if (result.empty) {
-          continue;
+          continue; // Skip to the next grade if no match found
         }
+  
         const userDoc = result.docs[0].data();
         if (!userDoc.email) {
           throw new Error("Email not found in Firestore document.");
         }
+  
         const userCredential = await signInWithEmailAndPassword(auth, userDoc.email, password);
-        return userCredential;
+        return { ...userCredential, role: userDoc.role || "user" }; // Always include a role
       }
+  
       throw new Error("LRN not found in any grade.");
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
     }
   },
+  
+  
 
   async sendEmailReset(lrn: string) {
     try {

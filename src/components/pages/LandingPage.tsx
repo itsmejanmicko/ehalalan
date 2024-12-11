@@ -40,9 +40,14 @@ const LandingPage = () => {
         formValues.lrn,
         formValues.password
       );
-      if (response.user) {
+
+      if (response.role==='user') {
         setLoading(false);
         navigate("/controlpanel");
+      }
+      if(response.role==='admin'){
+        setLoading(false);
+        navigate("/admin");
       }
     } catch (error: unknown) {
       setLoading(false);

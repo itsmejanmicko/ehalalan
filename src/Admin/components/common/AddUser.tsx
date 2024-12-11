@@ -2,22 +2,18 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { formValidation } from '../../../services/form';
 
-export default function AddUser({ closeModal }: { closeModal: () => void }) {
+export default function AddUser({ selectedGrade, closeModal }: {selectedGrade:string, closeModal: () => void }) {
   const [email, setEmail] = useState('');
   const [lrn, setLrn] = useState('');
   const [fullName, setFullName] = useState('');
-  const [grade, setGrade] = useState('');
-
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
      try {
-        await formValidation.register(email, lrn, fullName, grade);
+        await formValidation.register(email, lrn, fullName, selectedGrade);
      } catch (error) {
         console.log(error);
      }
-   
   };
-
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('File selected:', e.target.files?.[0]);
   };
@@ -86,20 +82,6 @@ export default function AddUser({ closeModal }: { closeModal: () => void }) {
             placeholder="Juan Dela Cruz"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            required
-            className="w-full px-3 py-2 border bg-gray-600 border-primary/90 rounded-md shadow-sm"
-          />
-        </div>
-        <div className="space-y-2">
-          <label htmlFor="grade" className="block text-sm font-medium">
-          Year Level
-          </label>
-          <input
-            id="grade"
-            type="text"
-            placeholder="Grade-12"
-            value={grade}
-            onChange={(e) => setGrade(e.target.value)}
             required
             className="w-full px-3 py-2 border bg-gray-600 border-primary/90 rounded-md shadow-sm"
           />

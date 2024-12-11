@@ -4,16 +4,16 @@ import { gradeYear } from '../../../constants/section';
 import AddUser from '../common/AddUser';
 
 export default function AllUserSection() {
-  const [selectedGrade, setSelectedGrade] = useState('Grade 7');
+  const [selectedGrade, setSelectedGrade] = useState('Grade-7');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tableData = [
-    { no: 1, grade: 'Grade 7', email: 'student1@example.com', name: 'John Doe' },
-    { no: 2, grade: 'Grade 8', email: 'student2@example.com', name: 'Jane Smith' },
-    { no: 3, grade: 'Grade 9', email: 'student3@example.com', name: 'Alice Johnson' },
-    { no: 4, grade: 'Grade 10', email: 'student4@example.com', name: 'Robert Brown' },
-    { no: 5, grade: 'Grade 11', email: 'student5@example.com', name: 'Emily Davis' },
-    { no: 6, grade: 'Grade 12', email: 'student6@example.com', name: 'Michael Wilson' },
+    { no: 1, grade: 'Grade-7', email: 'student1@example.com', name: 'John Doe' },
+    { no: 2, grade: 'Grade-8', email: 'student2@example.com', name: 'Jane Smith' },
+    { no: 3, grade: 'Grade-9', email: 'student3@example.com', name: 'Alice Johnson' },
+    { no: 4, grade: 'Grade-10', email: 'student4@example.com', name: 'Robert Brown' },
+    { no: 5, grade: 'Grade-11', email: 'student5@example.com', name: 'Emily Davis' },
+    { no: 6, grade: 'Grade-12', email: 'student6@example.com', name: 'Michael Wilson' },
   ];
 
   const openModal = () => setIsModalOpen(true);
@@ -84,7 +84,7 @@ export default function AllUserSection() {
       {/* Modal for Adding User */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <AddUser closeModal={closeModal} />
+          <AddUser closeModal={closeModal} selectedGrade={selectedGrade} />
         </div>
       )}
     </main>

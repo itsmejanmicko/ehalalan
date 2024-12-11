@@ -3,9 +3,11 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 interface IUser {
     uid: string;
     email: string;
-    lrn: string;
-    fullName: string;
+    lrn?: string;
+    fullName?: string;
+    role?:string;
 }
+
 
 interface AuthContextType {
     user: IUser | null;
