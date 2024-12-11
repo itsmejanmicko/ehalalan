@@ -5,6 +5,8 @@ import { path } from "../constants/path"
 import AllUser from "../Admin/components/pages/AllUser"
 import Candidates from "../Admin/components/pages/Candidates"
 import Watcher from "../Admin/components/pages/Watcher"
+import { AdminProvider } from "../context/PrivateContext"
+import PrivateRoute from "../context/PrivateRoute"
 
 
 const useAdminRoute = () =>{
@@ -14,9 +16,14 @@ const useAdminRoute = () =>{
             path:'/admin',
             index:true,
             element:(
-                <AdminLayout>
-                    <AdminPanel />
-                </AdminLayout>
+                <AdminProvider>
+                    <PrivateRoute> 
+                         <AdminLayout>
+                              <AdminPanel />
+                          </AdminLayout>
+                          </PrivateRoute>
+                </AdminProvider>
+               
             )
         },{
             path:path.ALLUSER,
